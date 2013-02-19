@@ -29,7 +29,8 @@ def getkeypath(d, keypath, default={}):
     keys = keypath.split('/')
     
     for i, key in enumerate(keys):
-        v = v.get(key, {} if i < (len(keys) - 1) else default)
+        if len(key):
+            v = v.get(key, {} if i < (len(keys) - 1) else default)
     
     return v
 

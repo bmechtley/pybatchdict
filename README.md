@@ -19,6 +19,14 @@ pybatchdict can then generate a list of dictionaries of combinations of those va
 {'a': 2, 'b': ':D', 'c': 4}]
 ```
 
+Also works fine with dictionaries with no variable arguments:
+
+```python
+>>> dictionary = {'a': {'b': 0, 'c': 1}}
+>>> parseconfig(dictionary)
+[{'a': {'c': 1, 'b': 0}}]
+```
+
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a nested dictionary) and `**` dictionary keyword argument unpacking :D 
 
 Other methods for nested dictionaries.
