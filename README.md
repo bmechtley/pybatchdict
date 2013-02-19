@@ -6,6 +6,7 @@ dictionary, each key can be a nested dictionary with a key "#var" that takes on 
 pybatchdict can then generate a list of dictionaries of combinations of those values. Here's a 
 quick example:
 
+```python
 	>>> from pybatchdict import *
 	>>> dictionary = {
 	... 'a': {'#var': [1, 2]},
@@ -14,6 +15,7 @@ quick example:
 	... }
 	>>> parseconfig(dictionary)
 	[{'a': 1, 'c': 3, 'b': 'hello'}, {'a': 1, 'c': 4, 'b': 'hello'}, {'a': 2, 'c': 3, 'b': 'hello'}, {'a': 2, 'c': 4, 'b': 'hello'}]	
+```
 
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a nested dictionary) and `**` dictionary keyword argument unpacking :D 
 
