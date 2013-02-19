@@ -36,18 +36,20 @@ Other methods for nested dictionaries.
 
 I also use a couple handy methods for dealing with nested dictionaries, namely `setkeypath` and `
 getkeypath`. pybatchdict refers to a path to a key in a nested dictionary as a keypath that uses 
-"/" as a delimiter. For example, `{'a' : {'b' : 0, 'c' : 1}}` has keypaths '/a/b' and '/a/c'.
+"/" as a delimiter. For example, `{'a' : {'b' : 0, 'c' : 1}}` has keypaths '/a', '/a/b', and '/a/c'.
 
 ```python
 >>> from pybatchdict import *
 >>> dictionary = {'a': {'b': 0, 'c': 1}}
->>> dictionary
-{'a': {'b': 0, 'c': 1}}
+>>> getkeypath('/a')
+{'b': 0, 'c': 1}
+>>> getkeypath('/a/b')
+0
+>>> getkeypath('/a/c')
+1
 >>> setkeypath(dictionary, '/a/b', 'hi')
 >>> dictionary
 {'a': {'b': 'hi', 'c': 1}}
->>> getkeypath(dictionary, '/a/c')
-1
 ```
 
 Warning.
