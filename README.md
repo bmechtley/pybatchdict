@@ -10,11 +10,11 @@ quick example:
 	>>> from pybatchdict import *
 	>>> dictionary = {
 	... 'a': {'#var': [1, 2]},
-	...	'b': 'hello',
+	...	'b': ':D',
 	...	'c': {'#var': [3, 4]},
 	... }
 	>>> parseconfig(dictionary)
-	[{'a': 1, 'c': 3, 'b': 'hello'}, {'a': 1, 'c': 4, 'b': 'hello'}, {'a': 2, 'c': 3, 'b': 'hello'}, {'a': 2, 'c': 4, 'b': 'hello'}]	
+	[{'a': 1, 'c': 3, 'b': ':D'}, {'a': 1, 'c': 4, 'b': ':D'}, {'a': 2, 'c': 3, 'b': ':D'}, {'a': 2, 'c': 4, 'b': ':D'}]	
 ```
 
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a nested dictionary) and `**` dictionary keyword argument unpacking :D 
