@@ -10,7 +10,7 @@ quick example:
 	>>> dictionary = {
 	... 'a': {'#var': [1, 2]},
 	...	'b': 'hello',
-	...	'c': '#var': [3, 4]},
+	...	'c': {'#var': [3, 4]},
 	... }
 	>>> parseconfig(dictionary)
 	[{'a': 1, 'c': 3, 'b': 'hello'}, {'a': 1, 'c': 4, 'b': 'hello'}, {'a': 2, 'c': 3, 'b': 'hello'}, {'a': 2, 'c': 4, 'b': 'hello'}]	
@@ -34,4 +34,5 @@ TODO.
 =====
 
 1. Documentation that is not stream-of-consciousness.
+2. Use multiple #var (e.g. #var-a, #var-b) tags to indicate that arguments should be zipped pairwise rather than iterated combinatorically.
 2. Tests? Ain't nobody got time for that.
