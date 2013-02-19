@@ -28,3 +28,9 @@ Warning.
 ========
 
 There is probably already a much better way of doing all this using some other Python module. Let me know!
+
+TODO.
+=====
+
+1. Documentation that is not stream-of-consciousness.
+2. Tests? Ain't nobody got time for that.
