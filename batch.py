@@ -1,3 +1,15 @@
+'''
+batch.py
+pybatchdict
+
+2013 Brandon Mechtley
+
+Tools for creating a list of dictionaries with different values for certain keys based upon a 
+specially formatted input dictionary.
+
+Also has certain tools for helping set/get key-value pairs in nested dictionaries.
+'''
+
 from itertools import product
 from copy import deepcopy
 
