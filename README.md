@@ -8,12 +8,12 @@ itertools.product` Here's a quick example:
 
 ```python
 >>> from pybatchdict import *
->>> dictionary = {
+>>> config = {
 ... 'a': {'#var': [1, 2]},
 ...	'b': ':D',
 ...	'c': {'#var': [3, 4]},
 ... }
->>> parseconfig(dictionary)
+>>> parseconfig(config)
 [{'a': 1, 'b': ':D', 'c': 3},
 {'a': 2, 'b': ':D', 'c': 3},
 {'a': 1, 'b': ':D', 'c': 4},
@@ -40,16 +40,16 @@ getkeypath`. pybatchdict refers to a path to a key in a nested dictionary as a k
 
 ```python
 >>> from pybatchdict import *
->>> dictionary = {'a': {'b': 0, 'c': 1}}
->>> getkeypath('/a')
-{'b': 0, 'c': 1}
->>> getkeypath('/a/b')
+>>> config = {'a': {'b': 0, 'c': 1}}
+>>> getkeypath(config, '/a')
+{'c': 1, 'b': 0}
+>>> getkeypath(config, '/a/b')
 0
->>> getkeypath('/a/c')
+>>> getkeypath(config, '/a/c')
 1
->>> setkeypath(dictionary, '/a/b', 'hi')
->>> dictionary
-{'a': {'b': 'hi', 'c': 1}}
+>>> setkeypath(config, '/a/b', 'hi')
+>>> config
+{'a': {'c': 1, 'b': 'hi'}}
 ```
 
 Warning.
