@@ -6,17 +6,17 @@ dictionary, each key can be a nested dictionary with a key "#var" that takes on 
 pybatchdict can then generate a list of dictionaries of combinations of those values. Uses `itertools.product` Here's a quick example:
 
 ```python
-	>>> from pybatchdict import *
-	>>> dictionary = {
-	... 'a': {'#var': [1, 2]},
-	...	'b': ':D',
-	...	'c': {'#var': [3, 4]},
-	... }
-	>>> parseconfig(dictionary)
-	[{'a': 1, 'b': ':D', 'c': 3},
- 	{'a': 2, 'b': ':D', 'c': 3},
- 	{'a': 1, 'b': ':D', 'c': 4},
- 	{'a': 2, 'b': ':D', 'c': 4}]
+>>> from pybatchdict import *
+>>> dictionary = {
+... 'a': {'#var': [1, 2]},
+...	'b': ':D',
+...	'c': {'#var': [3, 4]},
+... }
+>>> parseconfig(dictionary)
+[{'a': 1, 'b': ':D', 'c': 3},
+{'a': 2, 'b': ':D', 'c': 3},
+{'a': 1, 'b': ':D', 'c': 4},
+{'a': 2, 'b': ':D', 'c': 4}]
 ```
 
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a nested dictionary) and `**` dictionary keyword argument unpacking :D 
@@ -28,6 +28,18 @@ pybatchdict also has a couple handy methods for dealing with nested dictionaries
 `setkeypath` and `getkeypath`. pybatchdict refers to a path to a key in a nested dictionary as a 
 keypath that uses "/" as a delimiter. For example, `{'a' : {'b' : 0, 'c' : 1}}` has keypaths '/a/b' 
 and '/a/c'.
+
+```python
+>>> from pybatchdict import *
+>>> dictionary = {'a': {'b': 0, 'c': 1}}
+>>> dictionary
+{'a': {'b': 0, 'c': 1}}
+>>> setkeypath(dictionary, '/a/b', 'hi')
+>>> dictionary
+{'a': {'b': 'hi', 'c': 1}}
+>>> getkeypath(dictionary, '/a/c')
+1
+```
 
 Warning.
 ========
