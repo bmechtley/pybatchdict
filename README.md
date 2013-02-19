@@ -15,6 +15,7 @@ quick example:
 	>>> parseconfig(dictionary)
 	[{'a': 1, 'c': 3, 'b': 'hello'}, {'a': 1, 'c': 4, 'b': 'hello'}, {'a': 2, 'c': 3, 'b': 'hello'}, {'a': 2, 'c': 4, 'b': 'hello'}]	
 
+Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) :D 
 
 Other methods for nested dictionaries.
 ======================================
