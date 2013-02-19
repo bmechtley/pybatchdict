@@ -82,7 +82,7 @@ def pathcombos(paths):
     paths: list
         list of str keypaths'''
 
-    keys = [key for key in paths if key.split('/')[-1] == 'iterate']
+    keys = [key for key in paths if key.split('/')[-1] == '#var']
 
     listkeys = [
         ['/'.join(key.split('/')[:-1])] * len(paths[key]) 
