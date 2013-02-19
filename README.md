@@ -6,7 +6,7 @@ pybatchdict.
 Simple tool for using dictionaries to configure options for batch processes. Given any 
 dictionary, each key can be a nested dictionary with a key "#var" that takes on a list of values. 
 pybatchdict can then generate a list of dictionaries of combinations of those values. Uses 
-itertools.product` Here's a quick example:
+`itertools.product` Here's a quick example:
 
 ```python
 >>> from pybatchdict import *
