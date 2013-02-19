@@ -35,7 +35,7 @@ There is probably already a much better way of doing all this using some other P
 TODO.
 =====
 
-# Documentation that is not stream-of-consciousness.
-# Use multiple #var (e.g. #var-a, #var-b) tags to indicate that arguments should be zipped pairwise rather than iterated combinatorically.
-# Allow non-string keywords. Not sure if this actually matters since the normal use case is to use YAML/XML config files.
-# Tests? Ain't nobody got time for that.
+1. Documentation that is not stream-of-consciousness.
+1. Use multiple #var (e.g. #var-a, #var-b) tags to indicate that arguments should be zipped pairwise rather than iterated combinatorically.
+1. Allow non-string keywords. Not sure if this actually matters since the normal use case is to use YAML/XML config files.
+1. Tests? Ain't nobody got time for that.
