@@ -1,4 +1,4 @@
-I tend to use YAML to create config files for various sciency algorithms I use/make. I also tend to test these algorithms against various tunings of parameters, often combinatorically. Here's some code to indicate, in a (nested) dictionary, over which parameters you want to iterate, and generate a bunch of copies of the original dictionary.
+I tend to use YAML to create config files for various sciency algorithms I use/make. I also tend to test these algorithms against various tunings of parameters, often combinatorically. Here's some code to indicate, in a (nested) dictionary, over which parameters you want to iterate and generate a bunch of copies of the original dictionary.
 
 pybatchdict.
 ==============
