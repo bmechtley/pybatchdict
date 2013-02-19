@@ -13,7 +13,7 @@ itertools.product` Here's a quick example:
 >>> config = {
 ... 'a': {'#var': [1, 2]},
 ...	'b': ':D',
-...	'c': {'#var': [3, 4]},
+...	'c': {'#var': [3, 4]}
 ... }
 >>> parseconfig(config)
 [{'a': 1, 'b': ':D', 'c': 3},
