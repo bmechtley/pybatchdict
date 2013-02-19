@@ -15,14 +15,14 @@ quick example:
 	>>> parseconfig(dictionary)
 	[{'a': 1, 'c': 3, 'b': 'hello'}, {'a': 1, 'c': 4, 'b': 'hello'}, {'a': 2, 'c': 3, 'b': 'hello'}, {'a': 2, 'c': 4, 'b': 'hello'}]	
 
-Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) and `**` dictionary unpacking :D 
+Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a nested dictionary) and `**` dictionary keyword argument unpacking :D 
 
 Other methods for nested dictionaries.
 ======================================
 
 pybatchdict also has a couple handy methods for dealing with nested dictionaries, namely 
 `setkeypath` and `getkeypath`. pybatchdict refers to a path to a key in a nested dictionary as a 
-keypath that uses "/" as a delimiter. For example, `{'a' : {'b' : 0, 'c' : 1}}` has keypath '/a/b' 
+keypath that uses "/" as a delimiter. For example, `{'a' : {'b' : 0, 'c' : 1}}` has keypaths '/a/b' 
 and '/a/c'.
 
 Warning.
