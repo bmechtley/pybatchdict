@@ -37,4 +37,5 @@ TODO.
 
 1. Documentation that is not stream-of-consciousness.
 2. Use multiple #var (e.g. #var-a, #var-b) tags to indicate that arguments should be zipped pairwise rather than iterated combinatorically.
-2. Tests? Ain't nobody got time for that.
+3. Allow non-string keywords. Not sure if this actually matters since the normal use case is to use YAML/XML config files.
+4. Tests? Ain't nobody got time for that.
