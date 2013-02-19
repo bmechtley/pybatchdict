@@ -14,7 +14,10 @@ quick example:
 	...	'c': {'#var': [3, 4]},
 	... }
 	>>> parseconfig(dictionary)
-	[{'a': 1, 'c': 3, 'b': ':D'}, {'a': 1, 'c': 4, 'b': ':D'}, {'a': 2, 'c': 3, 'b': ':D'}, {'a': 2, 'c': 4, 'b': ':D'}]	
+	[{'a': 1, 'b': ':D', 'c': 3},
+ 	{'a': 2, 'b': ':D', 'c': 3},
+ 	{'a': 1, 'b': ':D', 'c': 4},
+ 	{'a': 2, 'b': ':D', 'c': 4}]
 ```
 
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a nested dictionary) and `**` dictionary keyword argument unpacking :D 
