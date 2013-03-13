@@ -10,8 +10,10 @@ specially formatted input dictionary.
 Also has certain tools for helping set/get key-value pairs in nested dictionaries.
 """
 
-from itertools import product
+import random
 from copy import deepcopy
+from itertools import product
+from pprint import PrettyPrinter
 
 def getkeypath(d, keypath, default=None):
     """
@@ -26,7 +28,7 @@ def getkeypath(d, keypath, default=None):
     Given an input (nested) dictionary and a keypath to a particular key, return the key's value in the dictionary.
     """
     if default is None: default = {}
-
+    
     v = d
     
     keys = keypath.split('/')
@@ -51,7 +53,7 @@ def setkeypath(d, keypath, value=None):
     
     Given an input dictionary and the path to a particular key, set the key's value in the dictionary.
     """
-
+    
     if type(keypath) == dict:
         for k, v in keypath.items():
             setkeypath(d, k, v)
@@ -73,7 +75,7 @@ def dictpaths(indict, inpath=''):
     
     Given a (nested) dictionary, enumerate all keypaths in a flat list.
     """
-
+    
     if type(indict) != dict:
         return {inpath: indict}
     else:
@@ -89,7 +91,7 @@ def dictpaths(indict, inpath=''):
                 for ele in paths:
                     for ekey in ele:
                         outdict[ekey] = ele[ekey]
-
+        
         return outdict
 
 def pathcombos(paths, data):
@@ -103,19 +105,51 @@ def pathcombos(paths, data):
     all lists. Output dicts are of form {keypath: value} where the keypath is the full path to the nested dictionary
     key that has an enumerable value and value is value for the individual combination.
     """
-
-    keys = [key for key in paths if key.split('/')[-1] == 'iterate']
-
-    listkeys = [['/'.join(key.split('/')[:-1])] * len(paths[key]) for key in keys]
-    listdata = [paths[key] for key in keys]
-
-    # O_o
-    combokeys = [a for a in product(*listkeys)]
-    combodata = [a for a in product(*listdata)]
-    combodict = [{k: v for k, v in zip(a, b)} for a, b in zip(combokeys, combodata)]
-
-    return combodict
-
+    
+    # TODO: Fix this documentation when I'm not about to crash.
+    
+    combosets = {}
+    
+    for key in paths:
+        keytokens = key.split('/')
+        lastkey = keytokens[-1]
+        
+        if lastkey[0] == '@':
+            setname = ''
+            
+            if len(lastkey) > 1:
+                setname = lastkey
+            else:
+                if len(combosets.keys()):                    
+                    setname = '@' + str(random.getrandbits(128))
+                    
+                    while setname in combosets.keys():
+                        setname = '@' + str(random.getrandbits(128))
+            
+            combosets.setdefault(setname, {})
+            keybase = '/'.join(keytokens[:-1])
+            vardata = getkeypath(data, key)
+            
+            combosets[setname][keybase] = vardata
+        
+    combos = [{
+        k: v 
+        for k, v in sum(valueset, [])} for valueset in [
+            list(combotuple) 
+            for combotuple in list(product(*[
+                [
+                    list(pair) for pair in 
+                    zip(*[
+                        list(product([keypath], values))
+                        for keypath, values in comboset.items()
+                    ])
+                ]
+                for comboset in combosets.values()
+            ]))
+        ]
+    ]
+    
+    return combos
 
 def dictlist(combos, data):
     """
@@ -128,14 +162,14 @@ def dictlist(combos, data):
     are modified copies of an input dictionary (data), where each dictionary has the values corresponding to the
     keypaths replaced by their desired values.
     """
-
+    
     dicts = []
-
+    
     for combo in combos:
         newdict = deepcopy(data)
         setkeypath(newdict, combo)
         dicts.append(newdict)
-
+    
     return dicts
 
 def parseconfig(d):
@@ -145,7 +179,23 @@ def parseconfig(d):
     
     Shortcut to automatically generate a list of dictionaries given an input config dictionary.
     """
-
+    
     paths = dictpaths(d)
     combos = pathcombos(paths, d)
     return dictlist(combos, d)
+
+# A little highly informal test.
+
+if __name__ == '__main__':
+    d = {
+        'a': {'@first': [1,2,3]},
+        'b': {'@second': [5,6]},
+        '1' : {
+            'c': {'@first': [8,9,10]}
+        },
+        'd': {'@': [11,12,13,14,15]},
+        'e': 10
+    }
+    
+    pp = PrettyPrinter()
+    pp.pprint(parseconfig(d))
