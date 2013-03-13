@@ -4,10 +4,8 @@ pybatchdict
 
 2013 Brandon Mechtley
 
-Tools for creating a list of dictionaries
-specially formatted input dictionary.
-
-Also has certain tools for helping set/get key-value pairs in nested dictionaries.
+Tools for creating a list of dictionaries from a specially formatted input dictionary. Also has certain tools for
+helping set/get key-value pairs in nested dictionaries.
 """
 
 import random
@@ -20,13 +18,22 @@ def getkeypath(d, keypath, default=None):
     :type d: dict
     :param d: input dictionary
     :type keypath: str
-    :param keypath: path to the key delimited by /. For example, to access key 'b' in {'a': {'b': 0}}, the path is
-        'a/b'.
+    :param keypath: path to the key delimited by /.
     :type default: anything
     :param default: optional default value to return if the key does not exist in the dictionary
     
     Given an input (nested) dictionary and a keypath to a particular key, return the key's value in the dictionary.
+    
+    For example: 
+    
+    getkeypath({
+        'a': {'b': 1, 'c': 2}, 
+        'd: 3
+    }, '/a/b'})
+    
+    will return 1.
     """
+    
     if default is None: default = {}
     
     v = d
@@ -73,7 +80,16 @@ def dictpaths(indict, inpath=''):
     :param inpath: parent path to the current place of execution (is a recursive function. So leave this to its 
         default.)
     
-    Given a (nested) dictionary, enumerate all keypaths in a flat list.
+    Given a (nested) dictionary, enumerate all keypaths in a flat list. For example:
+    
+    dictpaths({
+        'a': {'@1': [1, 2, 3]},
+        'b': {'@1': [4, 5, 6]},
+        'c': {'@': [7, 8]},
+        'd': 9
+    })
+    
+    will return ['/a/@1', '/b/@1', '/c/@', '/d'].
     """
     
     if type(indict) != dict:
@@ -101,12 +117,31 @@ def pathcombos(paths, data):
     :type data: dict
     :param data: original config dictionary with lists to which the keypaths refer.
     
-    Given a nested dictionary where some values are lists, return a list of flat dictionaries that are combinations of
-    all lists. Output dicts are of form {keypath: value} where the keypath is the full path to the nested dictionary
-    key that has an enumerable value and value is value for the individual combination.
-    """
+    Given a) a flat list of keypaths in a nested dictionary, as produced by dictpaths, and b) the original nested
+    dictionary, return a list of dictionaries that are every combination of values for paths that are to be iterated.
+    An iterated value is a dictionary with a key '@X', where X is any identifier or the empty string, and value that is
+    a list of values over which to iterate. If two values are iterated by the same identifier they will be considered a
+    single group and need to have the same number of elements (like zip). If a value is iterated by '@', it will take on
+    a unique random identifier. For example: 
     
-    # TODO: Fix this documentation when I'm not about to crash.
+    pathcombos(['/a', '/b', '/c', '/d', {
+        'a': {'@1': [1, 2, 3]}, 
+        'b': {'@1': [4, 5, 6]}, 
+        'c': {'@': [7, 8]},
+        'd' 9
+    })
+    
+    will return [
+        {'/a': 1, '/b': 4, '/c': 7},
+        {'/a': 1, '/b': 4, '/c': 8},
+        {'/a': 2, '/b': 5, '/c': 7},
+        {'/a': 2, '/b': 5, '/c': 8},
+        {'/a': 3, '/b': 6, '/c': 7},
+        {'/a': 3, '/b': 6, '/c': 8}
+    ].
+    
+    Notice that 'd' is not included. Use dictlist to reproduce the entire dictionary.
+    """
     
     combosets = {}
     
@@ -131,7 +166,9 @@ def pathcombos(paths, data):
             vardata = getkeypath(data, key)
             
             combosets[setname][keybase] = vardata
-        
+      
+    # TODO: This can probably be cleaned up quite a bit.
+    
     combos = [{
         k: v 
         for k, v in sum(valueset, [])} for valueset in [
@@ -188,13 +225,10 @@ def parseconfig(d):
 
 if __name__ == '__main__':
     d = {
-        'a': {'@first': [1,2,3]},
-        'b': {'@second': [5,6]},
-        '1' : {
-            'c': {'@first': [8,9,10]}
-        },
-        'd': {'@': [11,12,13,14,15]},
-        'e': 10
+        'a': {'@1': [1, 2, 3]},
+        'b': {'@1': [4, 5, 6]},
+        'c': {'@': [7, 8]},
+        'd': 9
     }
     
     pp = PrettyPrinter()
