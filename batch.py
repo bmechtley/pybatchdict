@@ -154,13 +154,13 @@ def pathcombos(paths, data):
             
             if len(lastkey) > 1:
                 setname = lastkey
-            else:
-                if len(combosets.keys()):                    
-                    setname = '@' + str(random.getrandbits(128))
-                    
+            else:                    
+                setname = '@' + str(random.getrandbits(128))
+                
+                if len(combosets.keys()):
                     while setname in combosets.keys():
                         setname = '@' + str(random.getrandbits(128))
-            
+        
             combosets.setdefault(setname, {})
             keybase = '/'.join(keytokens[:-1])
             vardata = getkeypath(data, key)
@@ -186,7 +186,7 @@ def pathcombos(paths, data):
         ]
     ]
     
-    return combos
+    return combos, combosets
 
 def dictlist(combos, data):
     """
@@ -221,9 +221,32 @@ def parseconfig(d):
     combos = pathcombos(paths, d)
     return dictlist(combos, d)
 
+class BatchDict:
+    def __init__(self, d=None):
+        self.d = d
+        self.paths = dictpaths(d)
+        self.unique, self.itsets = pathcombos(self.paths, d)
+        self.combos = dictlist(self.unique, d)
+    
+    def sorted_unique_items(self):
+        sorted_sets = sorted(self.itsets.keys())
+        rlist = []
+        
+        for u in self.unique:
+            paths = [] 
+            for set in sorted_sets:
+                for k in self.itsets[set]: 
+                    paths.append((k, u[k]))
+            
+            rlist.append(paths)
+        
+        return rlist 
+
 # A little highly informal test.
 
 if __name__ == '__main__':
+    
+    # d = {'a': {'@1': [1, 2, 3]}, 'b': {'@1': [4, 5, 6]}, 'c': {'@': [7, 8]}, 'd': 9} 
     d = {
         'a': {'@1': [1, 2, 3]},
         'b': {'@1': [4, 5, 6]},
