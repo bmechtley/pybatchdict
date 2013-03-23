@@ -10,7 +10,7 @@ helping set/get key-value pairs in nested dictionaries.
 
 import random
 from copy import deepcopy
-from itertools import product
+from itertools import product, izip
 from pprint import PrettyPrinter
 
 def getkeypath(d, keypath, default=None):
@@ -258,11 +258,11 @@ class BatchDict:
         for c, items in izip(self.combos, self.sorted_unique_items()):
             outname = '-'.join([
                 k.strip('/') + '-' + (
-                    '_'.join(['%.2f' % c for c in v]) if isinstance(v, (list, tuple, np.ndarray)) else str(v)
+                    '_'.join(['%.2f' % c for c in v]) if hasattr(v, '__iter__')  else str(v)
                 )
                 for k, v in items
             ])
-            outnames.append(os.path.join(args.output, outname))
+            outnames.append(outname)
     
         return outnames
 
