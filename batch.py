@@ -240,7 +240,31 @@ class BatchDict:
             
             rlist.append(paths)
         
-        return rlist 
+        return rlist
+    
+    def hyphenate_changes(self):
+        """
+        Create a list of strings that describe the unique portions of each combination from the batch dictionary. 
+        Variables are sorted by iteration set name. For example, if batchdict has original configuration dictionary 
+        {'a': {'@2': [0, 1]}, 'b': {'@1': [2, 3]}, 'c': 4}, then the output names will be:
+            ['b-2-a-0', 'b-2-a-1', 'b-3-a-0', 'b-3-a-1']
+        
+        Returns:
+            list of strings formatted for the unique portions of each config combination.
+        """
+    
+        outnames = []
+    
+        for c, items in izip(self.combos, self.sorted_unique_items()):
+            outname = '-'.join([
+                k.strip('/') + '-' + (
+                    '_'.join(['%.2f' % c for c in v]) if isinstance(v, (list, tuple, np.ndarray)) else str(v)
+                )
+                for k, v in items
+            ])
+            outnames.append(os.path.join(args.output, outname))
+    
+        return outnames
 
 # A little highly informal test.
 
