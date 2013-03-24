@@ -256,13 +256,14 @@ class BatchDict:
         outnames = []
     
         for c, items in izip(self.combos, self.sorted_unique_items()):
-            outname = '-'.join([
-                k.strip('/') + '-' + (
-                    '_'.join(['%.2f' % c for c in v]) if hasattr(v, '__iter__')  else str(v)
-                )
-                for k, v in items
-            ])
-            outnames.append(outname)
+            outnames.append(
+                '-'.join([
+                    k.strip('/').replace('/', '.') + '-' + (
+                        '_'.join(['%.2f' % c for c in v]) if hasattr(v, '__iter__')  else str(v)
+                    )
+                    for k, v in items
+                ])
+            )
     
         return outnames
 
