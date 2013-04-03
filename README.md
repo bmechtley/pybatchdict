@@ -14,18 +14,18 @@ Uses `itertools.product` Here's a quick example:
 ```python
 >>> from pybatchdict import *
 >>> config = {
-... 'a': {'@1': [1, 2, 3]},
+... 'a': {'i': 0, 'ii': {'@1': [1, 2, 3]}},
 ...	'b': {'@1': [4, 5, 6]},
 ...	'c': {'@': [7, 8]},
 ... 'd': 9
 ... }
 >>> parseconfig(config)
-[{'a': 1, 'b': 4, 'c': 7, 'd': 9},
-{'a': 1, 'b': 4, 'c': 8, 'd': 9},
-{'a': 2, 'b': 5, 'c': 7, 'd': 9},
-{'a': 2, 'b': 5, 'c': 8, 'd': 9},
-{'a': 3, 'b': 6, 'c': 7, 'd': 9},
-{'a': 3, 'b': 6, 'c': 8, 'd': 9}]
+[{'a': {'i': 0, 'ii': 1}, 'b': 4, 'c': 7, 'd': 9},
+{'a': {'i': 0, 'ii': 1}, 'b': 4, 'c': 8, 'd': 9},
+{'a': {'i': 0, 'ii': 2}, 'b': 5, 'c': 7, 'd': 9},
+{'a': {'i': 0, 'ii': 2}, 'b': 5, 'c': 8, 'd': 9},
+{'a': {'i': 0, 'ii': 3}, 'b': 6, 'c': 7, 'd': 9},
+{'a': {'i': 0, 'ii': 3}, 'b': 6, 'c': 8, 'd': 9}]
 ```
 
 Also works fine with dictionaries with no variable arguments:
