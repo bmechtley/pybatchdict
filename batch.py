@@ -218,7 +218,7 @@ def parseconfig(d):
     """
     
     paths = dictpaths(d)
-    combos = pathcombos(paths, d)
+    combos, combosets = pathcombos(paths, d)
     return dictlist(combos, d)
 
 class BatchDict:
@@ -273,7 +273,7 @@ if __name__ == '__main__':
     
     # d = {'a': {'@1': [1, 2, 3]}, 'b': {'@1': [4, 5, 6]}, 'c': {'@': [7, 8]}, 'd': 9} 
     d = {
-        'a': {'@1': [1, 2, 3]},
+        'a': {'i': 0, 'ii': {'@1': [1, 2, 3]}},
         'b': {'@1': [4, 5, 6]},
         'c': {'@': [7, 8]},
         'd': 9
