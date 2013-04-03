@@ -9,7 +9,7 @@ Simple tool for using dictionaries to configure options for batch processes. Giv
 nested dictionary with a key "@var" that takes on a list of values, where "var" is any identifier, including the empty
 string. Values iterated by the same identifier will be part of the same group, and so should have the same number of
 elements, similar to `zip()`. pybatchdict can then generate a list of dictionaries of combinations of those values.
-Uses `itertools.product` Here's a quick example:
+Uses `itertools.product`. Here's a quick example:
 
 ```python
 >>> from pybatchdict import *
