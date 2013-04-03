@@ -37,7 +37,7 @@ Also works fine with dictionaries with no variable arguments:
 ```
 
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a
-nested dictionary) and `**` dictionary keyword argument unpacking :D 
+nested dictionary), `**` dictionary keyword argument unpacking, and `multiprocessing.Pool` :D 
 
 Other methods for nested dictionaries.
 ======================================
