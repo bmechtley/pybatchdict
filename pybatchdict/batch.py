@@ -1,12 +1,13 @@
-"""
+'''
 batch.py
 pybatchdict
 
 2013 Brandon Mechtley
 
-Tools for creating a list of dictionaries from a specially formatted input dictionary. Also has certain tools for
-helping set/get key-value pairs in nested dictionaries.
-"""
+Tools for creating a list of dictionaries from a specially formatted input
+dictionary. Also has certain tools for helping set/get key-value pairs in
+nested dictionaries.
+'''
 
 import random
 from copy import deepcopy
@@ -14,15 +15,9 @@ from itertools import product
 from pprint import PrettyPrinter
 
 def getkeypath(d, keypath, default=None):
-    """
-    :type d: dict
-    :param d: input dictionary
-    :type keypath: str
-    :param keypath: path to the key delimited by /.
-    :type default: anything
-    :param default: optional default value to return if the key does not exist in the dictionary
-    
-    Given an input (nested) dictionary and a keypath to a particular key, return the key's value in the dictionary.
+    '''
+    Given an input (nested) dictionary and a keypath to a particular key, 
+    return the key's value in the dictionary.
     
     For example: 
     
@@ -32,7 +27,16 @@ def getkeypath(d, keypath, default=None):
     }, '/a/b'})
     
     will return 1.
-    """
+
+    Args:
+        d (dict): input dictionary
+        keypath (str): path to the key delimited by /.
+        default (anything): optional default value to return if the key does 
+            not exist in the dictionary.
+
+    Returns:
+        The value in the nested dictionary at the particular path.
+    '''
     
     if default is None: default = {}
     
@@ -47,19 +51,20 @@ def getkeypath(d, keypath, default=None):
     return v
 
 def setkeypath(d, keypath, value=None):
-    """
-    :type d: dict
-    :param d: input dictionary
-    :type keypath: str or dict
-    :param keypath: if keypath is a string, it is path to the key delimited by /. For example, to access key 'b' in 
-        {'a': {'b': 0}}, the path is '/a/b'. If keypath is a dictionary, it is dictionary of form {keypath: value}
-        where each key corresponds to a unique keypath within the nested dictionary.
-    :type value: anything
-    :param value: optional value to assign the key in the dictionary. Required if keypath is a  str rather than a
-        dictionary.
-    
-    Given an input dictionary and the path to a particular key, set the key's value in the dictionary.
-    """
+    '''
+    Given an input dictionary and the path to a particular key, set the key's
+    value in the dictionary.
+
+    Args:
+        d (dict): input dictionary
+        keypath (str or dict): if keypath is a string, it is path to the key
+            delimited by /. For example, to access key 'b' in  {'a': {'b': 0}},
+            the path is '/a/b'. If keypath is a dictionary, it is dictionary of
+            form {keypath: value} where each key corresponds to a unique
+            keypath within the nested dictionary.
+        value (anything): optional value to assign the key in the dictionary.
+            Required if keypath is a str rather than a dictionary.
+    '''
     
     if type(keypath) == dict:
         for k, v in keypath.items():
@@ -73,14 +78,9 @@ def setkeypath(d, keypath, value=None):
         d[keys[-1]] = value
 
 def dictpaths(indict, inpath=''):
-    """
-    :type indict: dict
-    :param indict: input nested dictionary
-    :type inpath: str
-    :param inpath: parent path to the current place of execution (is a recursive function. So leave this to its 
-        default.)
-    
-    Given a (nested) dictionary, enumerate all keypaths in a flat list. For example:
+    '''
+    Given a (nested) dictionary, enumerate all keypaths in a flat list. For 
+    example:
     
     dictpaths({
         'a': {'@1': [1, 2, 3]},
@@ -90,7 +90,15 @@ def dictpaths(indict, inpath=''):
     })
     
     will return ['/a/@1', '/b/@1', '/c/@', '/d'].
-    """
+
+    Args:
+        indict (dict): input nested dictionary
+        inpath (str): parent path to the current place of execution (is a
+            recursive function. So leave this to its default.)
+    
+    Returns:
+        list of all paths in the dictionary.
+    '''
     
     if type(indict) != dict:
         return {inpath: indict}
@@ -111,18 +119,18 @@ def dictpaths(indict, inpath=''):
         return outdict
 
 def pathcombos(paths, data):
-    """
-    :type paths: list
-    :param paths: list of str keypaths.
-    :type data: dict
-    :param data: original config dictionary with lists to which the keypaths refer.
+    '''
+    Given a) a flat list of keypaths in a nested dictionary, as produced by
+    dictpaths, and b) the original nested dictionary, return a list of
+    dictionaries that are every combination of values for paths that are to be
+    iterated.
     
-    Given a) a flat list of keypaths in a nested dictionary, as produced by dictpaths, and b) the original nested
-    dictionary, return a list of dictionaries that are every combination of values for paths that are to be iterated.
-    An iterated value is a dictionary with a key '@X', where X is any identifier or the empty string, and value that is
-    a list of values over which to iterate. If two values are iterated by the same identifier they will be considered a
-    single group and need to have the same number of elements (like zip). If a value is iterated by '@', it will take on
-    a unique random identifier. For example: 
+    An iterated value is a dictionary with a key '@X', where X is any
+    identifier or the empty string, and value that is a list of values over
+    which to iterate. If two values are iterated by the same identifier they
+    will be considered a single group and need to have the same number of
+    elements (like zip). If a value is iterated by '@', it will take on a
+    unique random identifier. For example: 
     
     pathcombos(['/a', '/b', '/c', '/d', {
         'a': {'@1': [1, 2, 3]}, 
@@ -140,8 +148,18 @@ def pathcombos(paths, data):
         {'/a': 3, '/b': 6, '/c': 8}
     ].
     
-    Notice that 'd' is not included. Use dictlist to reproduce the entire dictionary.
-    """
+    Notice that 'd' is not included. Use dictlist to reproduce the entire 
+    dictionary.
+
+    Args:
+        paths (list): list of str keypaths.
+        data (dict): original config dictionary with lists to which the
+            keypaths refer.
+    
+    Returns:
+        list of dictionaries for every combination of values for paths that are
+        to be iterated.
+    '''
     
     combosets = {}
     
@@ -189,16 +207,20 @@ def pathcombos(paths, data):
     return combos, combosets
 
 def dictlist(combos, data):
-    """
-    :type combos: dict
-    :param combos: dictionary of combinations of the iterated parameters.
-    :type data: dict
-    :param data: original dictionary to copy combinations' values into.
+    '''
+    Given a list of dictionaries containing keypath: value pairs from
+    pathcombos, return a list of dictionaries that are modified copies of an
+    input dictionary (data), where each dictionary has the values corresponding
+    to the keypaths replaced by their desired values.
+
+    Args:
+        combos (dict): dictionary of combinations of the iterated parameters.
+        data (dict): original dictionary to copy combinations' values into.
     
-    Given a list of dictionaries containing keypath: value pairs from pathcombos, return a list of dictionaries that
-    are modified copies of an input dictionary (data), where each dictionary has the values corresponding to the
-    keypaths replaced by their desired values.
-    """
+    Returns:
+        list of dictionaries where each dict has the values corresponding to
+        the keypaths replaced by their desired values.
+    '''
     
     dicts = []
     
@@ -210,12 +232,16 @@ def dictlist(combos, data):
     return dicts
 
 def parseconfig(d):
-    """
-    :type d: dict
-    :param d: input configuration dictionary
+    '''
+    Shortcut to automatically generate a list of dictionaries given an input
+    config dictionary.
+
+    Args:
+        d (dict): input configuration dictionary
     
-    Shortcut to automatically generate a list of dictionaries given an input config dictionary.
-    """
+    Returns:
+        list of dictionaries given an input configuration dictionary.
+    '''
     
     paths = dictpaths(d)
     combos, combosets = pathcombos(paths, d)
@@ -243,15 +269,19 @@ class BatchDict:
         return rlist
     
     def hyphenate_changes(self):
-        """
-        Create a list of strings that describe the unique portions of each combination from the batch dictionary. 
-        Variables are sorted by iteration set name. For example, if batchdict has original configuration dictionary 
-        {'a': {'@2': [0, 1]}, 'b': {'@1': [2, 3]}, 'c': 4}, then the output names will be:
-            ['b-2-a-0', 'b-2-a-1', 'b-3-a-0', 'b-3-a-1']
+        '''
+        Create a list of strings that describe the unique portions of each
+        combination from the batch dictionary. Variables are sorted by
+        iteration set name. 
+
+        For example, if batchdict has original configuration dictionary 
+        {'a': {'@2': [0, 1]}, 'b': {'@1': [2, 3]}, 'c': 4}, then the output
+        names will be: ['b-2-a-0', 'b-2-a-1', 'b-3-a-0', 'b-3-a-1'].
         
         Returns:
-            list of strings formatted for the unique portions of each config combination.
-        """
+            list of strings formatted for the unique portions of each config 
+            combination.
+        '''
     
         outnames = []
         
@@ -259,25 +289,12 @@ class BatchDict:
             outnames.append(
                 '-'.join([
                     k.strip('/').replace('/', '.') + '-' + (
-                        '_'.join(['%.2f' % c for c in v]) if hasattr(v, '__iter__')  else str(v)
+                        '_'.join([
+                            '%.2f' % c for c in v
+                        ]) if hasattr(v, '__iter__')  else str(v)
                     )
                     for k, v in items
                 ])
             )
     
         return outnames
-
-# A little highly informal test.
-
-if __name__ == '__main__':
-    
-    # d = {'a': {'@1': [1, 2, 3]}, 'b': {'@1': [4, 5, 6]}, 'c': {'@': [7, 8]}, 'd': 9} 
-    d = {
-        'a': {'i': 0, 'ii': {'@1': [1, 2, 3]}},
-        'b': {'@1': [4, 5, 6]},
-        'c': {'@': [7, 8]},
-        'd': 9
-    }
-    
-    pp = PrettyPrinter()
-    pp.pprint(parseconfig(d))
