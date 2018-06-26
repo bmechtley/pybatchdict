@@ -14,6 +14,23 @@ from copy import deepcopy
 from itertools import product
 from pprint import PrettyPrinter
 
+def nested_list_string(v):
+    '''
+    Return a string representation of a nested list where all elements are
+    separated by hyphens.
+
+    Args:
+        v: the nested list.
+
+    Returns:
+        A string of all values in the list separated by hyphens.
+    '''
+
+    if hasattr(v, '__iter__'):
+        return '-'.join('%s' % nested_list_string(c) for c in v)
+    else:
+        return str(v)
+
 def getkeypath(d, keypath, default=None):
     '''
     Given an input (nested) dictionary and a keypath to a particular key, 
@@ -132,7 +149,7 @@ def pathcombos(paths, data):
     elements (like zip). If a value is iterated by '@', it will take on a
     unique random identifier. For example: 
     
-    pathcombos(['/a', '/b', '/c', '/d', {
+    pathcombos(['/a', '/b', '/c', '/d'], {
         'a': {'@1': [1, 2, 3]}, 
         'b': {'@1': [4, 5, 6]}, 
         'c': {'@': [7, 8]},
@@ -150,6 +167,13 @@ def pathcombos(paths, data):
     
     Notice that 'd' is not included. Use dictlist to reproduce the entire 
     dictionary.
+
+    Additionally, if the value for an iterated value begins with @range, it
+    will be interpreted as a range that operates similar to numpy's "linspace."
+    e.g.
+        @range(5): [0, 1, 2, 3, 4]
+        @range(3,10): [3, 4, 5, 6, 7, 8, 9]
+        @range(0,1,5): [0, .2, .4, .6, .8]
 
     Args:
         paths (list): list of str keypaths.
@@ -182,7 +206,28 @@ def pathcombos(paths, data):
             combosets.setdefault(setname, {})
             keybase = '/'.join(keytokens[:-1])
             vardata = getkeypath(data, key)
-            
+
+            if isinstance(vardata, basestring):
+                if vardata[0:6] == '@range':
+                    tokens = vardata[7:].rstrip(')').split(',')
+                    tokens = [float(t) if '.' in t else int(t) for t in tokens]
+                    bottom = tokens[0]
+
+                    if len(tokens) == 1:
+                        count = tokens[0]
+                    elif len(tokens) == 2:
+                        count = tokens[1] - tokens[0]
+                    else:
+                        count = tokens[3]
+
+                    vardata = range(count)
+
+                    if len(tokens) == 2:
+                        vardata = [v + bottom for v in vardata]
+                    elif len(tokens) == 3:
+                        top = tokens[1]
+                        vardata = [v + bottom / (top - bottom) for v in tokens]
+
             combosets[setname][keybase] = vardata
       
     # TODO: This can probably be cleaned up quite a bit.
@@ -288,11 +333,7 @@ class BatchDict:
         for c, items in zip(self.combos, self.sorted_unique_items()):
             outnames.append(
                 '-'.join([
-                    k.strip('/').replace('/', '.') + '-' + (
-                        '_'.join([
-                            '%.2f' % c for c in v
-                        ]) if hasattr(v, '__iter__')  else str(v)
-                    )
+                    k.strip('/').replace('/', '.') + '-' + nested_list_string(v)
                     for k, v in items
                 ])
             )
