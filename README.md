@@ -66,9 +66,3 @@ Warning.
 There is probably already a much better way of doing all this using some other Python module. Let 
 me know!
 
-Also, note that this foolishly doesn't support any dictionary keys containing `/`, as they'll mess with keypath parsing. There's an obvious way to fix this.
-
-TODO.
-=====
-
-1. Tests? Ain't nobody got time for that.
