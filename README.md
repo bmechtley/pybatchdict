@@ -1,4 +1,4 @@
-I tend to use YAML to create config files for various sciency algorithms I use/make, converting them into python
+I tend to use YAML to create config files for various algorithms I use/make, converting them into python
 dictionaries and using `**` keyword argument unpacking. I also tend to test these algorithms against varying tunings of
 parameters, often combinatorically. Here's some code to indicate, in a (nested) dictionary, over which parameters you
 want to iterate and generate a bunch of copies of the original dictionary.
