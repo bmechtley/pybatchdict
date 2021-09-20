@@ -8,15 +8,15 @@ want to iterate and generate a bunch of copies of the original dictionary.
 Simple tool for using dictionaries to configure options for batch processes. Given any dictionary, each key can be a
 nested dictionary with a key "@var" that takes on a list of values, where "var" is any identifier, including the empty
 string. Values iterated by the same identifier will be part of the same group, and so should have the same number of
-elements, similar to `zip()`. pybatchdict can then generate a list of dictionaries of combinations of those values.
+elements, similar to `zip()`. pybatchdict can then generate a list of dictionaries of combinations of the different groups.
 Uses `itertools.product`. Here's a quick example:
 
 ```python
 >>> from pybatchdict import *
 >>> config = {
-... 'a': {'i': 0, 'ii': {'@1': [1, 2, 3]}},
-...	'b': {'@1': [4, 5, 6]},
-...	'c': {'@': [7, 8]},
+... 'a': {'i': 0, 'ii': {'@Group1': [1, 2, 3]}},
+...	'b': {'@Group1': [4, 5, 6]},
+...	'c': {'@': [7, 8]},         # @ is a group with no name. Other sequences with "@" will be in the same gruop.
 ... 'd': 9
 ... }
 >>> parseconfig(config)
