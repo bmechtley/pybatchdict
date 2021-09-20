@@ -3,7 +3,7 @@ dictionaries and using `**` keyword argument unpacking. I also tend to test thes
 parameters, often combinatorically. Here's some code to indicate, in a (nested) dictionary, over which parameters you
 want to iterate and generate a bunch of copies of the original dictionary.
 
-# pybatchdict.
+# pybatchdict
 
 Simple tool for using dictionaries to configure options for batch processes. Given any dictionary, each key can be a
 nested dictionary with a key "@var" that takes on a list of values, where "var" is any identifier, including the empty
@@ -39,7 +39,7 @@ Also works fine with dictionaries with no variable arguments:
 Works well with [PyYAML](http://pyyaml.org/wiki/PyYAML) (or anything else, like XML, that can easily be converted to a
 nested dictionary), `**` dictionary keyword argument unpacking, and `multiprocessing.Pool`. 
 
-Other methods for nested dictionaries.
+Other methods for nested dictionaries
 ======================================
 
 I also use a couple handy methods for dealing with nested dictionaries, namely `setkeypath` and `getkeypath`.
@@ -60,7 +60,7 @@ pybatchdict refers to a path to a key in a nested dictionary as a keypath that u
 {'a': {'c': 1, 'b': 'hi'}}
 ```
 
-Warning.
+Warning
 ========
 
 There is probably already a much better way of doing all this using some other Python module. Let 
