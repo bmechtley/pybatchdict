@@ -16,7 +16,7 @@ Uses `itertools.product`. Here's a quick example:
 >>> config = {
 ... 'a': {'i': 0, 'ii': {'@Group1': [1, 2, 3]}},
 ...	'b': {'@Group1': [4, 5, 6]},
-...	'c': {'@': [7, 8]},         # @ is a group with no name. Other sequences with "@" will be in the same gruop.
+...	'c': {'@': [7, 8]}, # @ is a group with no name. Other sequences with "@" will be in the same group.
 ... 'd': 9
 ... }
 >>> parseconfig(config)
